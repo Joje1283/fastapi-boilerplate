@@ -16,6 +16,7 @@ dependency-injector = "^4.43.0"
 loguru = "^0.7.2"
 uvicorn = {extras = ["standard"], version = "^0.32.0"}
 celery = "^5.4.0"
+py-ulid = "^1.0.3"
 
 
 [build-system]

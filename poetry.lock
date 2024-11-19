@@ -581,6 +581,16 @@ files = [
 wcwidth = "*"
 
 [[package]]
+name = "py-ulid"
+version = "1.0.3"
+description = "Python library that provides an implementation of the ULID Specification"
+optional = false
+python-versions = "*"
+files = [
+    {file = "py-ulid-1.0.3.tar.gz", hash = "sha256:e30fcd14386fb6568efe6345b4656cb79bf5b9f54b83822d2e36ca728fe0a661"},
+]
+
+[[package]]
 name = "pyasn1"
 version = "0.6.1"
 description = "Pure-Python implementation of ASN.1 types and DER/BER/CER codecs (X.208)"
@@ -1319,4 +1329,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "cbd690163014c8edeb05597cd615bbe804ad4a5efa33b0a57f1c303437865936"
+content-hash = "e01e6764003f575b51cbb26d1993c95315981de14843c662cfe65bf6a3ec561e"
