@@ -8,7 +8,7 @@ class AbcUserRepository(metaclass=ABCMeta):
         raise NotImplementedError
 
     @abstractmethod
-    async def find_by_email(self, email: str) -> User:
+    async def find_by_email(self, email: str) -> User | None:
         raise NotImplementedError
 
     @abstractmethod
