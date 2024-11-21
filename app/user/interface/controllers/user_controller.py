@@ -1,27 +1,15 @@
 from dependency_injector.wiring import inject, Provide
 from fastapi import APIRouter, Depends
-from pydantic import BaseModel, Field, EmailStr
 
-from app.user.application.schema.user import RegisterUserCommand
+from app.user.application.schema.user import RegisterUserCommand, LoginQuery
 from app.user.application.user_service import UserService
+from app.user.interface.controllers.schema.user import CreateUserResponse, CreateUserBody, LoginBody
 from core.containers import Container
 
 router = APIRouter(prefix="/users", tags=["users"])
 
 
-class CreateUserBody(BaseModel):
-    email: EmailStr = Field(max_length=64)
-    password: str = Field(min_length=4, max_length=32)
-
-    class Profile(BaseModel):
-        name: str = Field(min_length=2, max_length=32)
-        age: int = Field(ge=18)
-        phone: str = Field(max_length=16)
-
-    profile: Profile | None = Field(None, description="User profile")
-
-
-@router.post("", status_code=201)
+@router.post("", status_code=201, response_model=CreateUserResponse)
 @inject
 async def create_user(
     user: CreateUserBody,
@@ -39,3 +27,17 @@ async def create_user(
         )
     )
     return created_user
+
+
+@router.post("/login", status_code=200)
+@inject
+async def login(
+    body: LoginBody,
+    user_service: UserService = Depends(Provide[Container.user_service]),
+):
+    return await user_service.login(
+        login_query=LoginQuery(
+            email=body.email,
+            password=body.password,
+        )
+    )
