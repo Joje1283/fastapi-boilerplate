@@ -8,7 +8,6 @@ from app.user.application.schema.user import RegisterUserCommand, LoginQuery
 from app.user.domain.repository.unit_of_work import AbcUnitOfWork
 from app.user.domain.user import User, Profile
 from common.constants import Role
-from core.decorators import transactional
 from utils.hashing import Crypto
 from utils.jwt_utils import create_access_token
 
@@ -18,21 +17,21 @@ class UserService:
         self,
         ulid: ULID,
         crypto: Crypto,
+        uow: AbcUnitOfWork,
     ):
         self.ulid = ulid
         self.crypto = crypto
+        self.uow = uow
 
-    @transactional
     async def register_user(
         self,
         register_command: RegisterUserCommand,
-        uow: AbcUnitOfWork = Provide["uow"],
     ) -> User:
-        user = await uow.user_repo.find_by_email(email=register_command.email)
+        user = await self.uow.user_repo.find_by_email(email=register_command.email)
         if user:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already exists")
         now = datetime.now()
-        return await uow.user_repo.save(
+        return await self.uow.user_repo.save(
             User(
                 id=self.ulid.generate(),
                 email=register_command.email,
@@ -51,13 +50,11 @@ class UserService:
             )
         )
 
-    @transactional
     async def login(
         self,
         login_query: LoginQuery,
-        uow: AbcUnitOfWork = Provide["uow"],
     ):
-        user: User = await uow.user_repo.find_by_email(login_query.email)
+        user: User = await self.uow.user_repo.find_by_email(login_query.email)
         if not self.crypto.verify(login_query.password, user.password):
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
 
