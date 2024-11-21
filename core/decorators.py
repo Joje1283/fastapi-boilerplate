@@ -16,3 +16,7 @@ class Transactional:
             return result
 
         return _transactional
+
+
+def transactional(func):
+    return Transactional()(func)
