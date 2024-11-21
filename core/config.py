@@ -18,7 +18,7 @@ class Settings(BaseSettings):
 
     @property
     def sqlalchemy_database_url(self):
-        return f"mysql+aiomysqldb://{self.database_username}:{self.database_password}@{self.database_url}/{self.database_name}"
+        return f"mysql+aiomysql://{self.database_username}:{self.database_password}@{self.database_url}/{self.database_name}"
 
 
 @lru_cache

@@ -4,9 +4,13 @@ from pydantic import BaseModel
 class RegisterUserCommand(BaseModel):
     email: str
     password: str
-    name: str
-    age: int
-    phone: str
+
+    class Profile(BaseModel):
+        name: str
+        age: int
+        phone: str
+
+    profile: Profile | None
 
 
 class LoginQuery(BaseModel):

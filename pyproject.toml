@@ -19,6 +19,10 @@ celery = "^5.4.0"
 py-ulid = "^1.0.3"
 alembic = "^1.14.0"
 mysqlclient = "^2.2.6"
+pydantic = {extras = ["email"], version = "^2.9.2"}
+aiomysql = "^0.2.0"
+cryptography = "^43.0.3"
+bcrypt = "^4.2.1"
 
 
 [build-system]

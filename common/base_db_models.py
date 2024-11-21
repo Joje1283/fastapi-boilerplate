@@ -7,5 +7,5 @@ def get_utc_now():
 
 
 class BaseSQLModel(SQLModel):
-    created_at: datetime = Field(default=get_utc_now)
-    updated_at: datetime = Field(default=get_utc_now)
+    created_at: datetime = Field(default=get_utc_now())
+    updated_at: datetime = Field(default=get_utc_now())

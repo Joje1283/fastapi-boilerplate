@@ -1,5 +1,6 @@
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
+from sqlmodel import and_
 
 from app.user.domain.repository.user_repo import AbcUserRepository
 from app.user.domain.user import User as UserEntity
@@ -19,6 +20,7 @@ class UserRepository(AbcUserRepository):
             updated_at=user.updated_at,
         )
         self.session.add(user_model)
+        await self.session.flush()
         if user.profile:
             self.session.add(
                 Profile(
@@ -28,11 +30,10 @@ class UserRepository(AbcUserRepository):
                     phone=user.profile.phone,
                 )
             )
-        await self.session.flush()
         return user
 
     async def find_by_email(self, email: str) -> UserEntity | None:
-        query = select(
+        entries = [
             User.id,
             User.email,
             User.password,
@@ -41,13 +42,15 @@ class UserRepository(AbcUserRepository):
             Profile.name,
             Profile.age,
             Profile.phone,
-        )
+        ]
+        query = select(*entries)
+
         query = query.join(
             Profile,
-            User.id == Profile.user_id,
+            and_(User.id == Profile.user_id),
             isouter=True,
         )
-        query = query.where(User.email == email)
+        query = query.where(and_(User.email == email))
         result = await self.session.exec(query)
         result = result.one_or_none()
         if result:
