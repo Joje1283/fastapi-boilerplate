@@ -14,16 +14,16 @@ router = APIRouter(prefix="/users", tags=["users"])
 @inject
 @transactional
 async def create_user(
-    user: CreateUserBody,
+    body: CreateUserBody,
     user_service: UserService = Depends(Provide[Container.user_service]),
 ):
     created_user = await user_service.register_user(
         register_command=RegisterUserCommand(
-            email=user.email,
-            password=user.password,
+            email=body.email,
+            password=body.password,
             profile=(
-                RegisterUserCommand.Profile(name=user.profile.name, age=user.profile.age, phone=user.profile.phone)
-                if user.profile
+                RegisterUserCommand.Profile(name=body.profile.name, age=body.profile.age, phone=body.profile.phone)
+                if body.profile
                 else None
             ),
         )
