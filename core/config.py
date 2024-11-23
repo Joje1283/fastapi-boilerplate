@@ -1,4 +1,5 @@
 from functools import lru_cache
+from datetime import timedelta
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -15,6 +16,9 @@ class Settings(BaseSettings):
     jwt_secret: str
     celery_broker_url: str
     celery_backend_url: str
+    access_token_expires_days: int = timedelta(days=7)
+    refresh_token_expires_days: int = timedelta(days=30)
+
 
     @property
     def sqlalchemy_database_url(self):
