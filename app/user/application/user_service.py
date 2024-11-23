@@ -56,6 +56,8 @@ class UserService:
         login_query: LoginQuery,
     ) -> Token:
         user: User = await self.uow.user_repo.find_by_email(login_query.email)
+        if not user:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
         if not self.crypto.verify(login_query.password, user.password):
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
         return await self.auth_service.generate_tokens(user_id=user.id)
