@@ -1,12 +1,19 @@
 from dependency_injector import containers, providers
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.orm import sessionmaker
-from core.config import get_settings
+from ulid import ULID
 
+from app.auth.application.auth_service import AuthService
+from app.user.application.user_service import UserService
+from core.config import get_settings
+from core.uow.uow_impl import UnitOfWork
+from utils.hashing import Crypto
 
 settings = get_settings()
 
 
 class Container(containers.DeclarativeContainer):
-    engine = providers.Singleton(create_async_engine, settings.sqlalchemy_database_url, echo=True)
-    session = providers.Factory(sessionmaker, bind=engine, class_=AsyncSession, expire_on_commit=False)
+    wiring_config = containers.WiringConfiguration(packages=["app", "core", "utils"])
+    uow = providers.Factory(UnitOfWork)
+    ulid = providers.Factory(ULID)
+    crypto = providers.Factory(Crypto)
+    auth_service = providers.Factory(AuthService)
+    user_service = providers.Factory(UserService, ulid=ulid, crypto=crypto, uow=uow, auth_service=auth_service)

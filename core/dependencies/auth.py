@@ -3,8 +3,8 @@ from fastapi import HTTPException, status
 from fastapi.params import Depends
 from fastapi.security import OAuth2PasswordBearer
 
-from app.user.domain.user import CurrentUser
 from common.constants import Role
+from common.models import CurrentUser
 from utils.jwt_utils import decode_access_token
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/user/login")
