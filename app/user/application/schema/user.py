@@ -1,8 +1,8 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class RegisterUserCommand(BaseModel):
-    email: str
+    email: EmailStr
     password: str
 
     class Profile(BaseModel):
@@ -14,5 +14,5 @@ class RegisterUserCommand(BaseModel):
 
 
 class LoginQuery(BaseModel):
-    email: str
+    email: EmailStr
     password: str

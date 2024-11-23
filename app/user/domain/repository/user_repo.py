@@ -1,4 +1,5 @@
 from abc import ABCMeta, abstractmethod
+from pydantic import EmailStr
 from app.user.domain.user import User
 
 
@@ -8,7 +9,7 @@ class AbcUserRepository(metaclass=ABCMeta):
         raise NotImplementedError
 
     @abstractmethod
-    async def find_by_email(self, email: str) -> User | None:
+    async def find_by_email(self, email: EmailStr) -> User | None:
         raise NotImplementedError
 
     @abstractmethod

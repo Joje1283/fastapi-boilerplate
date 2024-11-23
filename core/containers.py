@@ -1,6 +1,7 @@
 from dependency_injector import containers, providers
 from ulid import ULID
 
+from app.auth.application.auth_service import AuthService
 from app.user.application.user_service import UserService
 from core.config import get_settings
 from core.uow.uow_impl import UnitOfWork
@@ -14,4 +15,5 @@ class Container(containers.DeclarativeContainer):
     uow = providers.Factory(UnitOfWork)
     ulid = providers.Factory(ULID)
     crypto = providers.Factory(Crypto)
-    user_service = providers.Factory(UserService, ulid=ulid, crypto=crypto, uow=uow)
+    auth_service = providers.Factory(AuthService)
+    user_service = providers.Factory(UserService, ulid=ulid, crypto=crypto, uow=uow, auth_service=auth_service)

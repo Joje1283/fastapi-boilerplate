@@ -1,5 +1,6 @@
 from datetime import datetime
 from dataclasses import dataclass
+from pydantic import EmailStr
 
 
 @dataclass
@@ -12,7 +13,7 @@ class Profile:
 @dataclass
 class User:
     id: str
-    email: str
+    email: EmailStr
     profile: Profile | None
     password: str
     created_at: datetime
