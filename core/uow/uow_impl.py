@@ -1,5 +1,5 @@
-from app.user.domain.repository.unit_of_work import AbcUnitOfWork
 from app.user.infra.repository.user_repo import UserRepository
+from core.uow.abstract import AbcUnitOfWork
 
 
 class UnitOfWork(AbcUnitOfWork):

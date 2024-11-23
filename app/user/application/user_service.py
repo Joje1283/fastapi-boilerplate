@@ -1,11 +1,10 @@
-from dependency_injector.wiring import Provide
 from fastapi import HTTPException
 from starlette import status
 from ulid import ULID
 from datetime import datetime
 
 from app.user.application.schema.user import RegisterUserCommand, LoginQuery
-from app.user.domain.repository.unit_of_work import AbcUnitOfWork
+from core.uow.abstract import AbcUnitOfWork
 from app.user.domain.user import User, Profile
 from common.constants import Role
 from utils.hashing import Crypto

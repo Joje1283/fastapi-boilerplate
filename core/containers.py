@@ -2,8 +2,8 @@ from dependency_injector import containers, providers
 from ulid import ULID
 
 from app.user.application.user_service import UserService
-from app.user.infra.repository.unit_of_work import UnitOfWork
 from core.config import get_settings
+from core.uow.uow_impl import UnitOfWork
 from utils.hashing import Crypto
 
 settings = get_settings()
