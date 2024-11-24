@@ -1,18 +1,19 @@
+from datetime import datetime
 from dataclasses import dataclass
 
 
 @dataclass
 class Tag:
-    id: int
+    id: str
     name: str
 
 
 @dataclass
 class Post:
-    id: int
+    id: str
     title: str
     content: str
     author_id: int
     tags: list[Tag]
-    created_at: str
-    updated_at: str
+    created_at: datetime
+    updated_at: datetime

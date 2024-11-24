@@ -1,9 +1,11 @@
-from abc import ABCMeta
+from abc import ABCMeta, abstractmethod
 
 
 class AbcTagRepository(metaclass=ABCMeta):
-    def save(self, tags: list[str]):
+    @abstractmethod
+    async def save(self, tags: list[str]):
         raise NotImplementedError
 
-    def delete(self, tag_ids: list[int]):
+    @abstractmethod
+    async def delete(self, tag_ids: list[int]):
         raise NotImplementedError
