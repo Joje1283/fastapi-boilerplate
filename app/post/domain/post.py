@@ -12,8 +12,8 @@ class Tag:
 class Post:
     id: str
     title: str
-    content: str
-    author_id: int
+    contents: str
+    author_id: str
     tags: list[Tag]
     created_at: datetime
     updated_at: datetime

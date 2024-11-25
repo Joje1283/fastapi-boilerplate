@@ -18,4 +18,4 @@ class Container(containers.DeclarativeContainer):
     crypto = providers.Factory(Crypto)
     auth_service = providers.Factory(AuthService)
     user_service = providers.Factory(UserService, ulid=ulid, crypto=crypto, uow=uow, auth_service=auth_service)
-    post_service = providers.Factory(PostService, uow=uow)
+    post_service = providers.Factory(PostService, uow=uow, ulid=ulid)

@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 class PostCommand(BaseModel):
     title: str
-    content: str
+    contents: str
     author_id: str
     tags: list[str]
 

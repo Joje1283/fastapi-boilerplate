@@ -3,6 +3,7 @@ from datetime import datetime
 
 from app.post.application.schema.post import PostCommand, PostsQuery
 from app.post.domain.post import Post, Tag
+from core.decorators import transactional
 from core.uow.abstract import AbcUnitOfWork
 
 
@@ -15,14 +16,15 @@ class PostService:
         self.uow = uow
         self.ulid = ulid
 
+    @transactional
     async def create_post(self, post_command: PostCommand) -> Post:
         now = datetime.now()
         return await self.uow.post_repo.save(
             Post(
                 id=self.ulid.generate(),
                 title=post_command.title,
-                content=post_command.content,
-                author_id=post_command.user_id,
+                contents=post_command.contents,
+                author_id=post_command.author_id,
                 tags=[
                     Tag(
                         id=self.ulid.generate(),
