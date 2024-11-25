@@ -5,18 +5,18 @@ from app.post.domain.repository.tag_repo import AbcTagRepository
 
 
 class AbcPostRepository(metaclass=ABCMeta):
-    tag_repository: AbcTagRepository
-
     @abstractmethod
-    async def save(self, post: Post):
+    async def save(self, post: Post) -> Post:
         raise NotImplementedError
 
     @abstractmethod
-    async def find_by_id(self, post_id: int) -> Post:
+    async def find_by_id(self, id: str) -> Post:
         raise NotImplementedError
 
     @abstractmethod
-    async def find_all(self) -> list[Post]:
+    async def find_all(
+        self, limit: int, offset: int, tag_ids: list[int], author_id: int = None
+    ) -> tuple[int, list[Post]]:
         raise NotImplementedError
 
     @abstractmethod

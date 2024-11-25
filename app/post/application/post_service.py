@@ -17,7 +17,7 @@ class PostService:
 
     async def create_post(self, post_command: PostCommand) -> Post:
         now = datetime.now()
-        await self.uow.post_repo.save(
+        return await self.uow.post_repo.save(
             Post(
                 id=self.ulid.generate(),
                 title=post_command.title,
@@ -35,8 +35,13 @@ class PostService:
             )
         )
 
-    async def get_post(self, post_id: int) -> Post:
-        pass
+    async def get_post(self, post_id: str) -> Post:
+        return await self.uow.post_repo.find_by_id(id=post_id)
 
     async def get_posts(self, posts_query: PostsQuery) -> tuple[int, list[Post]]:
-        pass
+        return await self.uow.post_repo.find_all(
+            limit=posts_query.limit,
+            offset=posts_query.offset,
+            tag_ids=[tag_id for tag_id in posts_query.tags],
+            author_id=posts_query.author_id,
+        )

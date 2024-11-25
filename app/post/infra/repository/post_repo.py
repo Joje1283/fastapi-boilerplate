@@ -3,13 +3,15 @@ from app.post.domain.repository.post_repo import AbcPostRepository
 
 
 class PostRepository(AbcPostRepository):
-    async def save(self, post: Post):
+    async def save(self, post: Post) -> Post:
         pass
 
-    async def find_by_id(self, post_id: int) -> Post:
+    async def find_by_id(self, id: int) -> Post:
         pass
 
-    async def find_all(self) -> list[Post]:
+    async def find_all(
+        self, limit: int, offset: int, tag_ids: list[int], author_id: int = None
+    ) -> tuple[int, list[Post]]:
         pass
 
     async def delete(self, post_id: int):
