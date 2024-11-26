@@ -10,6 +10,6 @@ class PostCommand(BaseModel):
 
 class PostsQuery(BaseModel):
     author_id: str | None
-    tag: list[int]
+    tags: list[int] | None
     limit: int
     offset: int

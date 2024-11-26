@@ -44,6 +44,6 @@ class PostService:
         return await self.uow.post_repo.find_all(
             limit=posts_query.limit,
             offset=posts_query.offset,
-            tag_ids=[tag_id for tag_id in posts_query.tags],
             author_id=posts_query.author_id,
+            tag_ids=posts_query.tags,
         )

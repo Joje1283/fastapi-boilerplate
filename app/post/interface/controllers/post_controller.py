@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
 from app.post.application.post_service import PostService
-from app.post.application.schema.post import PostCommand
+from app.post.application.schema.post import PostCommand, PostsQuery
 from common.models import CurrentUser
 from core.containers import Container
 from core.dependencies.auth import get_current_user
@@ -31,3 +31,29 @@ async def create_post(
         author_id=current_user.id,
     )
     await post_service.create_post(post_command=post_command)
+
+
+@router.get("/{post_id}")
+@inject
+async def get_post(
+    post_id: str,
+    post_service: PostService = Depends(Provide[Container.post_service]),
+):
+    return await post_service.get_post(post_id=post_id)
+
+
+@router.get("")
+@inject
+async def get_posts(
+    limit: int = 10,
+    offset: int = 0,
+    post_service: PostService = Depends(Provide[Container.post_service]),
+):
+    return await post_service.get_posts(
+        posts_query=PostsQuery(
+            limit=limit,
+            offset=offset,
+            tags=None,
+            author_id=None,
+        )
+    )
