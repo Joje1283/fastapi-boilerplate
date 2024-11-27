@@ -6,7 +6,11 @@ from app.post.domain.repository.tag_repo import AbcTagRepository
 
 class AbcPostRepository(metaclass=ABCMeta):
     @abstractmethod
-    async def save(self, post: Post) -> Post:
+    async def save(self, post_vo: Post) -> Post:
+        raise NotImplementedError
+
+    @abstractmethod
+    async def update(self, id: str, post_vo: Post) -> Post:
         raise NotImplementedError
 
     @abstractmethod
@@ -21,4 +25,8 @@ class AbcPostRepository(metaclass=ABCMeta):
 
     @abstractmethod
     async def delete(self, post_id: int):
+        raise NotImplementedError
+
+    @abstractmethod
+    async def delete_tags(self, user_id: str, id: str):
         raise NotImplementedError

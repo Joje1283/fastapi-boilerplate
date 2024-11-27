@@ -33,6 +33,34 @@ async def create_post(
     await post_service.create_post(post_command=post_command)
 
 
+@router.put("/{post_id}")
+@inject
+async def update_post(
+    post_id: str,
+    body: CreatePostBody,
+    current_user: CurrentUser = Depends(get_current_user),
+    post_service: PostService = Depends(Provide[Container.post_service]),
+):
+    post_command = PostCommand(
+        title=body.title,
+        contents=body.contents,
+        tags=body.tags,
+        author_id=current_user.id,
+    )
+    """
+    01JDPW0QZ7Z2H3R68J8Z67TNGF
+    
+    {
+      "title": "string",
+      "contents": "string",
+      "tags": [
+        "c", "d"
+      ]
+    }
+    """
+    return await post_service.update_post(post_id=post_id, post_command=post_command)
+
+
 @router.get("/{post_id}")
 @inject
 async def get_post(

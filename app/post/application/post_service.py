@@ -47,3 +47,22 @@ class PostService:
             author_id=posts_query.author_id,
             tag_ids=posts_query.tags,
         )
+
+    @transactional
+    async def update_post(self, post_id: str, post_command: PostCommand) -> Post:
+        post: Post = await self.uow.post_repo.find_by_id(id=post_id)
+        post.author_id = post_command.author_id
+        post.contents = post_command.contents
+        post.author_id = post_command.author_id
+        post.updated_at = datetime.now()
+        post.tags = [
+            Tag(
+                id=self.ulid.generate(),
+                name=tag_name,
+            )
+            for tag_name in post_command.tags
+        ]
+        return await self.uow.post_repo.update(
+            id=post_id,
+            post_vo=post,
+        )
