@@ -11,9 +11,9 @@ from core.database import session
 class PostRepository(AbcPostRepository):
     async def save(self, post_vo: PostVO) -> PostVO:
         # Upsert tags
-        tag_ids = [tag.id for tag in post_vo.tags]
-        tags_query = await session.execute(select(Tag).where(Tag.id.in_(tag_ids)))
-        saved_tags: list[Tag] = tags_query.all()
+        tag_names = [tag.name for tag in post_vo.tags]
+        tags_query = await session.execute(select(Tag).where(Tag.name.in_(tag_names)))
+        saved_tags: list[Tag] = tags_query.scalars().all()
         tags: list[Tag] = []
         saved_tags_dict = {tag.name: tag for tag in saved_tags}
 
