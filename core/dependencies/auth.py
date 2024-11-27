@@ -12,7 +12,6 @@ oauth2_scheme = HTTPBearer()
 
 def get_current_user(token: Annotated[HTTPAuthorizationCredentials, Depends(oauth2_scheme)]):
     payload = decode_access_token(token.credentials)
-
     user_id = payload.get("user_id")
     role = payload.get("role")
     if not user_id or not role or role != Role.USER:
