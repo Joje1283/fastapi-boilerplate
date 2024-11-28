@@ -28,5 +28,5 @@ class AbcPostRepository(metaclass=ABCMeta):
         raise NotImplementedError
 
     @abstractmethod
-    async def delete_tags(self, user_id: str, id: str):
+    async def _delete_tags(self):
         raise NotImplementedError

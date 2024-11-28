@@ -10,25 +10,13 @@ from core.database import session
 
 
 class PostRepository(AbcPostRepository):
-    async def delete_tags(self, user_id: str, id: str):
-        post_query = await session.execute(
-            select(Post).where(Post.author_id == user_id, Post.id == id).options(selectinload(Post.tags))
-        )
-        post = post_query.scalar_one_or_none()
-        if not post:
-            raise HTTPException(status_code=422)
-        post.tags = []
-        session.add(post)
-        await session.commit()
-
+    async def _delete_tags(self):
         unused_tags_query = await session.execute(select(Tag).where(~Tag.posts.any()))
         unused_tags = unused_tags_query.scalars().all()
         for tag in unused_tags:
             await session.delete(tag)
-        await session.commit()
 
     async def update(self, id: str, post_vo: PostVO) -> PostVO:
-        await self.delete_tags(user_id=post_vo.author_id, id=id)
         query = await session.execute(select(Post).options(selectinload(Post.tags)).where(Post.id == id))
         post = query.scalar_one_or_none()
         if not post:
@@ -47,6 +35,7 @@ class PostRepository(AbcPostRepository):
                 tags.append(Tag(id=tag.id, name=tag.name))
         post.tags = tags
         session.add(post)
+        await self._delete_tags()
         await session.flush()
         return PostVO(
             id=post.id,
