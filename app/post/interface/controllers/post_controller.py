@@ -47,17 +47,6 @@ async def update_post(
         tags=body.tags,
         author_id=current_user.id,
     )
-    """
-    01JDPW0QZ7Z2H3R68J8Z67TNGF
-    
-    {
-      "title": "string",
-      "contents": "string",
-      "tags": [
-        "c", "d"
-      ]
-    }
-    """
     return await post_service.update_post(post_id=post_id, post_command=post_command)
 
 

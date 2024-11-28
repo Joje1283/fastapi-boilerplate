@@ -8,6 +8,9 @@ from core.database import session_factory, session
 
 
 class UserRepository(AbcUserRepository):
+    def __init__(self):
+        self.session = session
+
     async def save(self, user: UserEntity) -> UserEntity:
         user_model = User(
             id=user.id,
@@ -16,10 +19,10 @@ class UserRepository(AbcUserRepository):
             created_at=user.created_at,
             updated_at=user.updated_at,
         )
-        session.add(user_model)
-        await session.flush()
+        self.session.add(user_model)
+        await self.session.flush()
         if user.profile:
-            session.add(
+            self.session.add(
                 Profile(
                     user_id=user.id,
                     name=user.profile.name,
@@ -41,33 +44,31 @@ class UserRepository(AbcUserRepository):
             Profile.phone,
         ]
         query = select(*entries)
-
         query = query.join(
             Profile,
             and_(User.id == Profile.user_id),
             isouter=True,
         )
         query = query.where(and_(User.email == email))
-        async with session_factory() as read_session:
-            result = await read_session.exec(query)
-            result = result.one_or_none()
-            if result:
-                return UserEntity(
-                    id=result.id,
-                    email=result.email,
-                    password=result.password,
-                    profile=(
-                        Profile(
-                            name=result.name,
-                            age=result.age,
-                            phone=result.phone,
-                        )
-                        if result.name
-                        else None
-                    ),
-                    created_at=result.created_at,
-                    updated_at=result.updated_at,
-                )
+        result = await self.session.execute(query)
+        result = result.one_or_none()
+        if result:
+            return UserEntity(
+                id=result.id,
+                email=result.email,
+                password=result.password,
+                profile=(
+                    Profile(
+                        name=result.name,
+                        age=result.age,
+                        phone=result.phone,
+                    )
+                    if result.name
+                    else None
+                ),
+                created_at=result.created_at,
+                updated_at=result.updated_at,
+            )
 
     async def delete(self) -> None:
         pass

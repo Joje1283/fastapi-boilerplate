@@ -10,21 +10,24 @@ from core.database import session
 
 
 class PostRepository(AbcPostRepository):
+    def __init__(self):
+        self.session = session
+
     async def _delete_tags(self):
-        unused_tags_query = await session.execute(select(Tag).where(~Tag.posts.any()))
+        unused_tags_query = await self.session.execute(select(Tag).where(~Tag.posts.any()))
         unused_tags = unused_tags_query.scalars().all()
         for tag in unused_tags:
-            await session.delete(tag)
+            await self.session.delete(tag)
 
     async def update(self, id: str, post_vo: PostVO) -> PostVO:
-        query = await session.execute(select(Post).options(selectinload(Post.tags)).where(Post.id == id))
+        query = await self.session.execute(select(Post).options(selectinload(Post.tags)).where(Post.id == id))
         post = query.scalar_one_or_none()
         if not post:
             raise HTTPException(status_code=422)
         post.title = post_vo.title
         post.contents = post_vo.contents
         tag_names = [tag.name for tag in post_vo.tags]
-        tags_query = await session.execute(select(Tag).where(Tag.name.in_(tag_names)))
+        tags_query = await self.session.execute(select(Tag).where(Tag.name.in_(tag_names)))
         saved_tags: list[Tag] = tags_query.scalars().all()
         tags: list[Tag] = []
         saved_tags_dict = {tag.name: tag for tag in saved_tags}
@@ -34,9 +37,9 @@ class PostRepository(AbcPostRepository):
             else:
                 tags.append(Tag(id=tag.id, name=tag.name))
         post.tags = tags
-        session.add(post)
+        self.session.add(post)
         await self._delete_tags()
-        await session.flush()
+        await self.session.flush()
         return PostVO(
             id=post.id,
             title=post.title,
@@ -50,7 +53,7 @@ class PostRepository(AbcPostRepository):
     async def save(self, post_vo: PostVO) -> PostVO:
         # Upsert tags
         tag_names = [tag.name for tag in post_vo.tags]
-        tags_query = await session.execute(select(Tag).where(Tag.name.in_(tag_names)))
+        tags_query = await self.session.execute(select(Tag).where(Tag.name.in_(tag_names)))
         saved_tags: list[Tag] = tags_query.scalars().all()
         tags: list[Tag] = []
         saved_tags_dict = {tag.name: tag for tag in saved_tags}
@@ -68,13 +71,13 @@ class PostRepository(AbcPostRepository):
             author_id=post_vo.author_id,
             tags=tags,
         )
-        session.add(new_post)
-        await session.flush()
+        self.session.add(new_post)
+        await self.session.flush()
         post_vo.tags = [Tag(id=tag.id, name=tag.name) for tag in new_post.tags]
         return post_vo
 
     async def find_by_id(self, id: int) -> PostVO:
-        query = await session.execute(select(Post).options(selectinload(Post.tags)).where(Post.id == id))
+        query = await self.session.execute(select(Post).options(selectinload(Post.tags)).where(Post.id == id))
         post = query.scalar_one_or_none()
         if post:
             return PostVO(
@@ -92,7 +95,7 @@ class PostRepository(AbcPostRepository):
     ) -> tuple[int, list[PostVO]]:
         query = select(Post)
 
-        total_count_query = await session.execute(select(func.count()).select_from(query.subquery()))
+        total_count_query = await self.session.execute(select(func.count()).select_from(query.subquery()))
         total_count = total_count_query.scalar_one()
 
         query = query.options(selectinload(Post.tags))
@@ -102,7 +105,7 @@ class PostRepository(AbcPostRepository):
             query = query.where(Post.author_id == author_id)
 
         query = query.limit(limit).offset(offset)
-        posts = await session.execute(query)
+        posts = await self.session.execute(query)
         return total_count, [
             PostVO(
                 id=post.id,
@@ -118,7 +121,8 @@ class PostRepository(AbcPostRepository):
 
     async def delete(self, post_id: int):
         query = select(Post).where(Post.id == post_id)
-        post = await session.execute(query).scalar_one_or_none()
+        query = await self.session.execute(query)
+        post = query.scalar_one_or_none()
         if post:
-            session.delete(post)
-            await session.flush()
+            await self.session.delete(post)
+            await self.session.flush()

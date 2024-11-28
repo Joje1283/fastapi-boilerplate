@@ -1,10 +1,13 @@
 from abc import ABCMeta, abstractmethod
 
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.post.domain.post import Post
-from app.post.domain.repository.tag_repo import AbcTagRepository
 
 
 class AbcPostRepository(metaclass=ABCMeta):
+    session: AsyncSession
+
     @abstractmethod
     async def save(self, post_vo: Post) -> Post:
         raise NotImplementedError
