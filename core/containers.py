@@ -5,6 +5,7 @@ from app.auth.application.auth_service import AuthService
 from app.post.application.post_service import PostService
 from app.user.application.user_service import UserService
 from core.config import get_settings
+from core.database import get_read_session, get_session
 from core.uow.uow_impl import UnitOfWork
 from utils.hashing import Crypto
 
@@ -13,7 +14,10 @@ settings = get_settings()
 
 class Container(containers.DeclarativeContainer):
     wiring_config = containers.WiringConfiguration(packages=["app", "core", "utils"])
-    uow = providers.Factory(UnitOfWork)
+    session_provider = providers.Factory(get_session)
+    read_session_provider = providers.Factory(get_read_session)
+    uow = providers.Factory(UnitOfWork, session=session_provider)
+    read_uow = providers.Factory(UnitOfWork, session=read_session_provider)
     ulid = providers.Factory(ULID)
     crypto = providers.Factory(Crypto)
     auth_service = providers.Factory(AuthService)

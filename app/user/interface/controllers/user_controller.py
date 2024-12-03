@@ -5,14 +5,12 @@ from app.user.application.schema.user import RegisterUserCommand, LoginQuery
 from app.user.application.user_service import UserService
 from app.user.interface.controllers.schema.user import CreateUserResponse, CreateUserBody, LoginBody
 from core.containers import Container
-from core.decorators import transactional
 
 router = APIRouter(prefix="/users", tags=["users"])
 
 
 @router.post("", status_code=201, response_model=CreateUserResponse)
 @inject
-@transactional
 async def create_user(
     body: CreateUserBody,
     user_service: UserService = Depends(Provide[Container.user_service]),

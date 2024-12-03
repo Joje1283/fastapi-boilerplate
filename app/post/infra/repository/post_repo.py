@@ -2,15 +2,15 @@ from fastapi import HTTPException
 from sqlalchemy import func
 from sqlalchemy.orm import selectinload
 from sqlmodel import select
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.post.domain.post import Post as PostVO
 from app.post.infra.model.post import Tag, Post
 from app.post.domain.repository.post_repo import AbcPostRepository
-from core.database import session
 
 
 class PostRepository(AbcPostRepository):
-    def __init__(self):
+    def __init__(self, session: AsyncSession):
         self.session = session
 
     async def _delete_tags(self):

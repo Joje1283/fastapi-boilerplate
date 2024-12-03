@@ -1,14 +1,14 @@
 from sqlmodel import select
 from sqlmodel import and_
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.user.domain.repository.user_repo import AbcUserRepository
 from app.user.domain.user import User as UserEntity
 from app.user.infra.model.user import User, Profile
-from core.database import session_factory, session
 
 
 class UserRepository(AbcUserRepository):
-    def __init__(self):
+    def __init__(self, session: AsyncSession):
         self.session = session
 
     async def save(self, user: UserEntity) -> UserEntity:

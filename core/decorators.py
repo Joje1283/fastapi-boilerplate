@@ -1,17 +1,13 @@
 from functools import wraps
-from core.database import session
 
 
-def transactional(func):
+def db_session(func):
     @wraps(func)
-    async def _transactional(*args, **kwargs):
-        try:
-            result = await func(*args, **kwargs)
-            await session.commit()
-        except Exception as e:
-            await session.rollback()
-            raise e
+    async def wrapper(*args, **kwargs):
+        uow = kwargs.get("uow")
+        if not uow:
+            raise ValueError("uow is required.")
+        async with uow:
+            return await func(*args, **kwargs)
 
-        return result
-
-    return _transactional
+    return wrapper
