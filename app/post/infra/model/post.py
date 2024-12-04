@@ -1,5 +1,4 @@
 from sqlmodel import Field, SQLModel, Relationship
-
 from common.base_db_models import BaseSQLModel
 
 

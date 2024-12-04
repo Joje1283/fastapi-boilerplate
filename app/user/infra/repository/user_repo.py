@@ -50,7 +50,7 @@ class UserRepository(AbcUserRepository):
             isouter=True,
         )
         query = query.where(and_(User.email == email))
-        result = await self.session.execute(query)
+        result = await self.session.exec(query)
         result = result.one_or_none()
         if result:
             return UserEntity(

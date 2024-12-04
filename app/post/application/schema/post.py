@@ -2,10 +2,10 @@ from pydantic import BaseModel
 
 
 class PostCommand(BaseModel):
-    title: str
-    contents: str
-    author_id: str
-    tags: list[str]
+    title: str | None
+    contents: str | None
+    author_id: str | None
+    tags: list[str] | None
 
 
 class PostsQuery(BaseModel):
