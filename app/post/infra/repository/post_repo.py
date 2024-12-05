@@ -23,11 +23,12 @@ class PostRepository(AbcPostRepository):
         query = await self.session.exec(
             select(Post).options(selectinload(Post.tags)).where(Post.id == id).select_from(Post)
         )
-        post = query.one_or_none()
+        post: Post = query.one_or_none()
         if not post:
             raise HTTPException(status_code=422)
         post.title = post_vo.title
         post.contents = post_vo.contents
+        post.author_id = post_vo.author_id
         tag_names = [tag.name for tag in post_vo.tags]
         tags_query = await self.session.exec(select(Tag).where(Tag.name.in_(tag_names)).select_from(Tag))
         saved_tags = tags_query.all()
