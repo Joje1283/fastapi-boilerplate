@@ -28,28 +28,29 @@ class UserService:
         self,
         register_command: RegisterUserCommand,
     ) -> User:
-        user = await self.uow.user_repo.find_by_email(email=register_command.email)
-        if user:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already exists")
-        now = datetime.now()
-        return await self.uow.user_repo.save(
-            User(
-                id=self.ulid.generate(),
-                email=register_command.email,
-                profile=(
-                    Profile(
-                        name=register_command.profile.name,
-                        age=register_command.profile.age,
-                        phone=register_command.profile.phone,
-                    )
-                    if register_command.profile
-                    else None
-                ),
-                password=self.crypto.encrypt(register_command.password),
-                created_at=now,
-                updated_at=now,
+        async with self.uow:
+            user = await self.uow.user_repo.find_by_email(email=register_command.email)
+            if user:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already exists")
+            now = datetime.now()
+            return await self.uow.user_repo.save(
+                User(
+                    id=self.ulid.generate(),
+                    email=register_command.email,
+                    profile=(
+                        Profile(
+                            name=register_command.profile.name,
+                            age=register_command.profile.age,
+                            phone=register_command.profile.phone,
+                        )
+                        if register_command.profile
+                        else None
+                    ),
+                    password=self.crypto.encrypt(register_command.password),
+                    created_at=now,
+                    updated_at=now,
+                )
             )
-        )
 
     async def login(
         self,
