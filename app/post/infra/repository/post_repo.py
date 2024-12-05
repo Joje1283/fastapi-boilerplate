@@ -80,21 +80,20 @@ class PostRepository(AbcPostRepository):
         return post_vo
 
     async def find_by_id(self, id: int) -> PostVO:
-        async with self.session as session:
-            query = await session.exec(
-                select(Post).options(selectinload(Post.tags)).where(Post.id == id).select_from(Post)
+        query = await self.session.exec(
+            select(Post).options(selectinload(Post.tags)).where(Post.id == id).select_from(Post)
+        )
+        post = query.one_or_none()
+        if post:
+            return PostVO(
+                id=post.id,
+                title=post.title,
+                contents=post.contents,
+                author_id=post.author_id,
+                tags=[Tag(id=tag.id, name=tag.name) for tag in post.tags],
+                created_at=post.created_at,
+                updated_at=post.updated_at,
             )
-            post = query.one_or_none()
-            if post:
-                return PostVO(
-                    id=post.id,
-                    title=post.title,
-                    contents=post.contents,
-                    author_id=post.author_id,
-                    tags=[Tag(id=tag.id, name=tag.name) for tag in post.tags],
-                    created_at=post.created_at,
-                    updated_at=post.updated_at,
-                )
 
     async def find_all(
         self, limit: int, offset: int, tag_ids: list[int] = None, author_id: int = None
@@ -110,24 +109,23 @@ class PostRepository(AbcPostRepository):
             query = query.where(Post.author_id == author_id)
 
         query = query.limit(limit).offset(offset)
-        async with self.session as session:
-            posts = await session.exec(query)
-            return total_count, [
-                PostVO(
-                    id=post.id,
-                    title=post.title,
-                    contents=post.contents,
-                    author_id=post.author_id,
-                    tags=[Tag(id=tag.id, name=tag.name) for tag in post.tags],
-                    created_at=post.created_at,
-                    updated_at=post.updated_at,
-                )
-                for post in posts.all()
-            ]
+        posts = await self.session.exec(query)
+        return total_count, [
+            PostVO(
+                id=post.id,
+                title=post.title,
+                contents=post.contents,
+                author_id=post.author_id,
+                tags=[Tag(id=tag.id, name=tag.name) for tag in post.tags],
+                created_at=post.created_at,
+                updated_at=post.updated_at,
+            )
+            for post in posts.all()
+        ]
 
     async def delete(self, post_id: int):
-        query = select(Post).where(Post.id == post_id)
-        query = await self.session.execute(query)
+        query = select(Post).where(Post.id == post_id).select_from(Post)
+        query = await self.session.exec(query)
         post = query.scalar_one_or_none()
         if post:
             await self.session.delete(post)
