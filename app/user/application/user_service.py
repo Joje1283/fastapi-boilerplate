@@ -6,6 +6,7 @@ from datetime import datetime
 from app.auth.application.auth_service import AuthService
 from app.auth.domain.token import Token
 from app.user.application.schema.user import RegisterUserCommand, LoginQuery
+from core.decorators import query_handler, command_handler
 from core.uow.abstract import AbcUnitOfWork
 from app.user.domain.user import User, Profile
 from utils.hashing import Crypto
@@ -22,6 +23,7 @@ class UserQueryService:
         self.uow = read_uow
         self.auth_service = auth_service
 
+    @query_handler
     async def login(
         self,
         login_query: LoginQuery,
@@ -45,30 +47,30 @@ class UserCommandService:
         self.uow = write_uow
         self.ulid = ulid
 
+    @command_handler
     async def register_user(
         self,
         register_command: RegisterUserCommand,
     ) -> User:
-        async with self.uow:
-            user = await self.uow.user_repo.find_by_email(email=register_command.email)
-            if user:
-                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already exists")
-            now = datetime.now()
-            return await self.uow.user_repo.save(
-                User(
-                    id=self.ulid.generate(),
-                    email=register_command.email,
-                    profile=(
-                        Profile(
-                            name=register_command.profile.name,
-                            age=register_command.profile.age,
-                            phone=register_command.profile.phone,
-                        )
-                        if register_command.profile
-                        else None
-                    ),
-                    password=self.crypto.encrypt(register_command.password),
-                    created_at=now,
-                    updated_at=now,
-                )
+        user = await self.uow.user_repo.find_by_email(email=register_command.email)
+        if user:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already exists")
+        now = datetime.now()
+        return await self.uow.user_repo.save(
+            User(
+                id=self.ulid.generate(),
+                email=register_command.email,
+                profile=(
+                    Profile(
+                        name=register_command.profile.name,
+                        age=register_command.profile.age,
+                        phone=register_command.profile.phone,
+                    )
+                    if register_command.profile
+                    else None
+                ),
+                password=self.crypto.encrypt(register_command.password),
+                created_at=now,
+                updated_at=now,
             )
+        )
