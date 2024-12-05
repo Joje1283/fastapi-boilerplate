@@ -2,7 +2,7 @@ from dependency_injector.wiring import inject, Provide
 from fastapi import APIRouter, Depends
 
 from app.user.application.schema.user import RegisterUserCommand, LoginQuery
-from app.user.application.user_service import UserService
+from app.user.application.user_service import UserCommandService, UserQueryService
 from app.user.interface.controllers.schema.user import CreateUserResponse, CreateUserBody, LoginBody
 from core.containers import Container
 
@@ -13,7 +13,7 @@ router = APIRouter(prefix="/users", tags=["users"])
 @inject
 async def create_user(
     body: CreateUserBody,
-    user_service: UserService = Depends(Provide[Container.user_service]),
+    user_service: UserCommandService = Depends(Provide[Container.user_command_service]),
 ):
     created_user = await user_service.register_user(
         register_command=RegisterUserCommand(
@@ -33,7 +33,7 @@ async def create_user(
 @inject
 async def login(
     body: LoginBody,
-    user_service: UserService = Depends(Provide[Container.user_service]),
+    user_service: UserQueryService = Depends(Provide[Container.user_query_service]),
 ):
     return await user_service.login(
         login_query=LoginQuery(
