@@ -50,25 +50,26 @@ class UserRepository(AbcUserRepository):
             isouter=True,
         )
         query = query.where(and_(User.email == email))
-        result = await self.session.exec(query)
-        result = result.one_or_none()
-        if result:
-            return UserEntity(
-                id=result.id,
-                email=result.email,
-                password=result.password,
-                profile=(
-                    Profile(
-                        name=result.name,
-                        age=result.age,
-                        phone=result.phone,
-                    )
-                    if result.name
-                    else None
-                ),
-                created_at=result.created_at,
-                updated_at=result.updated_at,
-            )
+        async with self.session as session:
+            result = await session.exec(query)
+            result = result.one_or_none()
+            if result:
+                return UserEntity(
+                    id=result.id,
+                    email=result.email,
+                    password=result.password,
+                    profile=(
+                        Profile(
+                            name=result.name,
+                            age=result.age,
+                            phone=result.phone,
+                        )
+                        if result.name
+                        else None
+                    ),
+                    created_at=result.created_at,
+                    updated_at=result.updated_at,
+                )
 
     async def delete(self) -> None:
         pass
