@@ -5,13 +5,34 @@ from app.post.domain.post import Post, Tag
 from core.uow.abstract import AbcUnitOfWork
 
 
-class PostService:
+class PostQueryService:
     def __init__(
         self,
-        uow: AbcUnitOfWork,
+        read_uow: AbcUnitOfWork,
         ulid: ULID,
     ):
-        self.uow = uow
+        self.uow = read_uow
+        self.ulid = ulid
+
+    async def get_post(self, post_id: str) -> Post:
+        return await self.uow.post_repo.find_by_id(id=post_id)
+
+    async def get_posts(self, posts_query: PostsQuery) -> tuple[int, list[Post]]:
+        return await self.uow.post_repo.find_all(
+            limit=posts_query.limit,
+            offset=posts_query.offset,
+            author_id=posts_query.author_id,
+            tag_ids=posts_query.tags,
+        )
+
+
+class PostCommandService:
+    def __init__(
+        self,
+        write_uow: AbcUnitOfWork,
+        ulid: ULID,
+    ):
+        self.uow = write_uow
         self.ulid = ulid
 
     async def create_post(self, post_command: PostCommand) -> Post:
@@ -34,17 +55,6 @@ class PostService:
                     updated_at=now,
                 )
             )
-
-    async def get_post(self, post_id: str) -> Post:
-        return await self.uow.post_repo.find_by_id(id=post_id)
-
-    async def get_posts(self, posts_query: PostsQuery) -> tuple[int, list[Post]]:
-        return await self.uow.post_repo.find_all(
-            limit=posts_query.limit,
-            offset=posts_query.offset,
-            author_id=posts_query.author_id,
-            tag_ids=posts_query.tags,
-        )
 
     async def update_post(self, post_id: str, post_command: PostCommand) -> Post:
         async with self.uow:

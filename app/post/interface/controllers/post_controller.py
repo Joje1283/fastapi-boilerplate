@@ -2,7 +2,7 @@ from dependency_injector.wiring import inject, Provide
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
-from app.post.application.post_service import PostService
+from app.post.application.post_service import PostCommandService, PostQueryService
 from app.post.application.schema.post import PostCommand, PostsQuery
 from common.models import CurrentUser
 from core.containers import Container
@@ -22,7 +22,7 @@ class CreatePostBody(BaseModel):
 async def create_post(
     body: CreatePostBody,
     current_user: CurrentUser = Depends(get_current_user),
-    post_service: PostService = Depends(Provide[Container.post_service]),
+    post_service: PostCommandService = Depends(Provide[Container.post_command_service]),
 ):
     post_command = PostCommand(
         title=body.title,
@@ -39,7 +39,7 @@ async def update_post(
     post_id: str,
     body: CreatePostBody,
     current_user: CurrentUser = Depends(get_current_user),
-    post_service: PostService = Depends(Provide[Container.post_service]),
+    post_service: PostCommandService = Depends(Provide[Container.post_command_service]),
 ):
     post_command = PostCommand(
         title=body.title,
@@ -54,7 +54,7 @@ async def update_post(
 @inject
 async def get_post(
     post_id: str,
-    post_service: PostService = Depends(Provide[Container.post_service]),
+    post_service: PostQueryService = Depends(Provide[Container.post_query_service]),
 ):
     return await post_service.get_post(post_id=post_id)
 
@@ -64,7 +64,7 @@ async def get_post(
 async def get_posts(
     limit: int = 10,
     offset: int = 0,
-    post_service: PostService = Depends(Provide[Container.post_service]),
+    post_service: PostQueryService = Depends(Provide[Container.post_query_service]),
 ):
     return await post_service.get_posts(
         posts_query=PostsQuery(
