@@ -6,29 +6,6 @@ from core.redis import redis_client as cache_client
 from core.logger import logger
 
 
-def command_handler(func):
-    async def wrapper(self, *args, **kwargs):
-        async with self.uow:
-            try:
-                result = await func(self, *args, **kwargs)
-                await self.uow.commit()
-                return result
-            except Exception:
-                await self.uow.rollback()
-                raise
-
-    return wrapper
-
-
-def query_handler(func):
-    async def wrapper(self, *args, **kwargs):
-        async with self.uow:
-            result = await func(self, *args, **kwargs)
-            return result
-
-    return wrapper
-
-
 def is_serializable(value):
     try:
         json.dumps(value)  # Check if JSON serializable
