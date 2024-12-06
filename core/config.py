@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     celery_backend_url: str
     access_token_expires_days: timedelta = timedelta(days=7)
     refresh_token_expires_days: timedelta = timedelta(days=30)
+    redis_url: str
 
     @property
     def sqlalchemy_database_url(self):

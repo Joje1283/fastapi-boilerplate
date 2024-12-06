@@ -2,7 +2,7 @@ from ulid import ULID
 from datetime import datetime
 from app.post.application.schema.post import PostCommand, PostsQuery
 from app.post.domain.post import Post, Tag
-from core.decorators import query_handler, command_handler
+from core.decorators import query_handler, command_handler, cached
 from core.uow.abstract import AbcUnitOfWork
 
 
@@ -20,6 +20,7 @@ class PostQueryService:
         return await self.uow.post_repo.find_by_id(id=post_id)
 
     @query_handler
+    @cached(ttl=30)
     async def get_posts(self, posts_query: PostsQuery) -> tuple[int, list[Post]]:
         return await self.uow.post_repo.find_all(
             limit=posts_query.limit,
