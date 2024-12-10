@@ -143,8 +143,7 @@ class PostQueryService:
 ## Database
 ```bash
 docker run --name mysql-local -p 3306:3306/tcp -e MYSQL_ROOT_PASSWORD=test -d mysql:8
-mysql > CREATE SCHEMA `dbname`;  # API Bacakend 
-mysql > CREATE SCHEMA `messaging`;  # Celery Backend
+mysql > CREATE SCHEMA `dbname`;  # API Bacakend
 ```
 
 ## Redis
