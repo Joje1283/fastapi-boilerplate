@@ -82,13 +82,6 @@ uvicorn main:app --reload
 pytest .
 ```
 
-## Celery
-
-```bash
-celery -A core.dependencies.messaging.celery worker -n worker1 --loglevel=info
-celery -A core.dependencies.messaging.celery worker -n worker1 --loglevel=info --pool=solo  # For Windows
-```
-
 # Usage
 
 ## Session Scope
