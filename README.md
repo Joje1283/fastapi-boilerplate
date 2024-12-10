@@ -1,9 +1,9 @@
 # Project Overview: FastAPI-Based Architecture
 
+---
+
 ## Overview  
 This project is a FastAPI-based server designed with a focus on **clear separation of responsibilities** and **scalability**. Following the principles of Clean Architecture, the system is structured into four layers: **Domain**, **Application**, **Infra**, and **Interface**. It incorporates **CQRS (Command Query Responsibility Segregation)** and **Unit of Work (UoW)** patterns to enhance performance, maintainability, and testability. The implementation allows for managing **read_uow** and **write_uow** separately, ensuring precise control over transactions for both read and write operations.
-
----
 
 ## Project Structure  
 
@@ -24,8 +24,6 @@ This project is a FastAPI-based server designed with a focus on **clear separati
 ### **4. Interface Layer**  
 - Defines FastAPI endpoints for external communication.  
 - Responsible for translating user requests into application layer actions and returning appropriate responses.
-
----
 
 ## Key Features  
 
@@ -50,7 +48,6 @@ This project is a FastAPI-based server designed with a focus on **clear separati
 - The Infra layer allows effortless integration of new data sources, caching systems, or external APIs.  
 - CQRS supports the addition of read-only databases or write-optimized systems without impacting existing logic.
 
----
 
 ## Tech Stack  
 
@@ -61,7 +58,6 @@ This project is a FastAPI-based server designed with a focus on **clear separati
 - **Transaction Management**: Unit of Work Pattern  
 - **Architectural Pattern**: CQRS  
 
----
 
 ## Design Philosophy  
 
@@ -70,12 +66,13 @@ This project is a FastAPI-based server designed with a focus on **clear separati
 - **Testability**: The architecture maximizes testability through explicit session management and layer isolation.  
 - **Scalability**: Designed to easily accommodate changes in business requirements or technology stacks.  
 
----
 
 This project serves as a representative example of a FastAPI-based server with **CQRS** and **Unit of Work** patterns, achieving a balance between scalability, performance, and maintainability.
 
 
 # Run
+
+---
 
 ## Server
 
@@ -140,19 +137,22 @@ class PostQueryService:
 ```
 
 # Environment
-### Database
+
+---
+
+## Database
 ```bash
 docker run --name mysql-local -p 3306:3306/tcp -e MYSQL_ROOT_PASSWORD=test -d mysql:8
 mysql > CREATE SCHEMA `dbname`;  # API Bacakend 
 mysql > CREATE SCHEMA `messaging`;  # Celery Backend
 ```
 
-### Redis
+## Redis
 ```bash
 docker run --name redis-local -d -p 6379:6379 redis
 ```
 
-### .ENV Example
+## .ENV Example
 ```bash
 DATABASE_USERNAME=root
 DATABASE_PASSWORD=test
