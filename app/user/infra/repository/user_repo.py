@@ -4,6 +4,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.user.domain.repository.user_repo import AbcUserRepository
 from app.user.domain.user import User as UserEntity
+from app.user.domain.user import Profile as ProfileVO
 from app.user.infra.model.user import User, Profile
 
 
@@ -58,7 +59,7 @@ class UserRepository(AbcUserRepository):
                 email=result.email,
                 password=result.password,
                 profile=(
-                    Profile(
+                    ProfileVO(
                         name=result.name,
                         age=result.age,
                         phone=result.phone,
