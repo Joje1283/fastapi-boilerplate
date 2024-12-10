@@ -1,7 +1,5 @@
 # Project Overview: FastAPI-Based Architecture
 
----
-
 ## Overview  
 This project is a FastAPI-based server designed with a focus on **clear separation of responsibilities** and **scalability**. Following the principles of Clean Architecture, the system is structured into four layers: **Domain**, **Application**, **Infra**, and **Interface**. It incorporates **CQRS (Command Query Responsibility Segregation)** and **Unit of Work (UoW)** patterns to enhance performance, maintainability, and testability. The implementation allows for managing **read_uow** and **write_uow** separately, ensuring precise control over transactions for both read and write operations.
 
@@ -72,8 +70,6 @@ This project serves as a representative example of a FastAPI-based server with *
 
 # Run
 
----
-
 ## Server
 
 ```bash
@@ -137,8 +133,6 @@ class PostQueryService:
 ```
 
 # Environment
-
----
 
 ## Database
 ```bash
