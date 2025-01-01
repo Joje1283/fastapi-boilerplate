@@ -4,7 +4,7 @@ from core.application.dto.post import PostCommand, PostsQuery
 from core.domain.model.post import Post, Tag
 from common.db_scope import query_handler, command_handler
 from core.infra.cache import cached
-from common.unit_of_work.uow import AbcUnitOfWork
+from core.infra.unit_of_work.abc_uow import AbcUnitOfWork
 
 
 class PostQueryService:

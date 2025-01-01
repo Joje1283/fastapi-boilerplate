@@ -6,7 +6,7 @@ from core.application.service.post_service import PostCommandService, PostQueryS
 from core.application.dto.post import PostCommand, PostsQuery
 from common.models import CurrentUser
 from core.infra.containers import Container
-from core.dependencies.auth import get_current_user
+from core.infra.dependencies.auth import get_current_user
 
 router = APIRouter(prefix="/posts", tags=["posts"])
 
