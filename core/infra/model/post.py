@@ -1,5 +1,5 @@
 from sqlmodel import Field, SQLModel, Relationship
-from common.base_db_models import BaseSQLModel
+from core.infra.base_db_models import BaseSQLModel
 
 
 class PostTagLink(SQLModel, table=True):

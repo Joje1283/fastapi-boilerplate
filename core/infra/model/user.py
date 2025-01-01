@@ -1,6 +1,6 @@
 from sqlmodel import Field
 
-from common.base_db_models import BaseSQLModel
+from core.infra.base_db_models import BaseSQLModel
 
 
 class User(BaseSQLModel, table=True):
