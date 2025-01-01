@@ -5,7 +5,7 @@ from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from core.post.domain.post import Post as PostVO
-from core.post.infra.model.post import Tag, Post
+from core.infra.model.post import Tag, Post
 from core.post.domain.repository.post_repo import AbcPostRepository
 
 

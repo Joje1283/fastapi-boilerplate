@@ -5,7 +5,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 from core.user.domain.repository.user_repo import AbcUserRepository
 from core.user.domain.user import User as UserEntity
 from core.user.domain.user import Profile as ProfileVO
-from core.user.infra.model.user import User, Profile
+from core.infra.model.user import User, Profile
 
 
 class UserRepository(AbcUserRepository):
