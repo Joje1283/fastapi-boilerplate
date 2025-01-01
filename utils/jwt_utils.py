@@ -1,5 +1,5 @@
 from common.constants import Role
-from core.config import get_settings
+from common.config import get_settings
 from jose import jwt, JWTError
 from datetime import datetime, timedelta
 from fastapi import HTTPException, status
