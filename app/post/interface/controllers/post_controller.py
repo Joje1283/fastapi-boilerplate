@@ -5,8 +5,8 @@ from pydantic import BaseModel
 from app.post.application.post_service import PostCommandService, PostQueryService
 from app.post.application.schema.post import PostCommand, PostsQuery
 from common.models import CurrentUser
-from core.containers import Container
-from core.dependencies.auth import get_current_user
+from common.containers import Container
+from common.dependencies.auth import get_current_user
 
 router = APIRouter(prefix="/posts", tags=["posts"])
 

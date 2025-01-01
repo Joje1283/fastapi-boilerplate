@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import (
 )
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from core.config import get_settings
+from common.config import get_settings
 
 config = get_settings()
 

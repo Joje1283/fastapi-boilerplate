@@ -4,9 +4,9 @@ from ulid import ULID
 from app.auth.application.auth_service import AuthService
 from app.post.application.post_service import PostCommandService, PostQueryService
 from app.user.application.user_service import UserCommandService, UserQueryService
-from core.config import get_settings
-from core.database import get_read_session, get_session
-from core.uow.uow_impl import UnitOfWork
+from common.config import get_settings
+from common.database import get_read_session, get_session
+from common.uow.uow_impl import UnitOfWork
 from utils.hashing import Crypto
 
 settings = get_settings()

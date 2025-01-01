@@ -8,7 +8,7 @@ from app.auth.application.auth_service import AuthService
 from app.user.application.schema.user import RegisterUserCommand, LoginQuery
 from app.user.application.user_service import UserCommandService, UserQueryService
 from app.user.domain.user import User, Profile
-from core.uow.abstract import AbcUnitOfWork
+from common.uow.abstract import AbcUnitOfWork
 from utils.hashing import Crypto
 
 

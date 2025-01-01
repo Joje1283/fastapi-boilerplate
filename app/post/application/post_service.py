@@ -2,9 +2,9 @@ from ulid import ULID
 from datetime import datetime
 from app.post.application.schema.post import PostCommand, PostsQuery
 from app.post.domain.post import Post, Tag
-from core.helpers.db_scope import query_handler, command_handler
-from core.helpers.cache import cached
-from core.uow.abstract import AbcUnitOfWork
+from common.decorator.db_scope import query_handler, command_handler
+from common.decorator.cache import cached
+from common.uow.abstract import AbcUnitOfWork
 
 
 class PostQueryService:

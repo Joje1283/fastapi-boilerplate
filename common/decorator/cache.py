@@ -2,8 +2,8 @@ import functools
 import pickle
 import hashlib
 import json
-from core.redis import redis_client as cache_client
-from core.logger import logger
+from common.redis import redis_client as cache_client
+from common.logger import logger
 
 
 def is_serializable(value):

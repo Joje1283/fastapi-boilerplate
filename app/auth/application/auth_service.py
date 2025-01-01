@@ -4,7 +4,7 @@ from starlette import status
 from app.auth.domain.token import Token
 from common.constants import Role
 from utils.jwt_utils import create_access_token, decode_access_token
-from core.config import get_settings
+from common.config import get_settings
 
 
 config = get_settings()
