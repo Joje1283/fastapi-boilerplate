@@ -4,9 +4,9 @@ from sqlalchemy.orm import selectinload
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from core.post.domain.post import Post as PostVO
+from core.domain.model.post import Post as PostVO
 from core.infra.model.post import Tag, Post
-from core.post.domain.repository.post_repo import AbcPostRepository
+from core.domain.repository.post_repo import AbcPostRepository
 
 
 class PostRepository(AbcPostRepository):

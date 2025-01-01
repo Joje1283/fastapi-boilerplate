@@ -2,9 +2,9 @@ from sqlmodel import select
 from sqlmodel import and_
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from core.user.domain.repository.user_repo import AbcUserRepository
-from core.user.domain.user import User as UserEntity
-from core.user.domain.user import Profile as ProfileVO
+from core.domain.repository.user_repo import AbcUserRepository
+from core.domain.model.user import User as UserEntity
+from core.domain.model.user import Profile as ProfileVO
 from core.infra.model.user import User, Profile
 
 

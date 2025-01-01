@@ -1,6 +1,6 @@
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from core.post.domain.repository.tag_repo import AbcTagRepository
+from core.domain.repository.tag_repo import AbcTagRepository
 
 
 class TagRepository(AbcTagRepository):

@@ -4,7 +4,7 @@ import pytest
 from freezegun import freeze_time
 from pytest_asyncio import fixture
 
-from core.user.domain.user import User, Profile
+from core.domain.model.user import User, Profile
 from core.infra.repository.user_repo import UserRepository
 
 

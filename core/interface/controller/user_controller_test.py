@@ -4,10 +4,10 @@ import pytest
 from core.application.dto.user import RegisterUserCommand
 from core.application.service.user_service import UserCommandService
 
-from core.user.domain.user import User, Profile
-from core.user.interface.controllers import user_controller
-from core.user.interface.controllers.schema.user import CreateUserBody
-from core.user.interface.controllers.schema.user import Profile as ProfileBody
+from core.domain.model.user import User, Profile
+from core.interface.controller import user_controller
+from core.interface.dto.user import CreateUserBody
+from core.interface.dto.user import Profile as ProfileBody
 
 
 @pytest.fixture

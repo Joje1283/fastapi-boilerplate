@@ -1,8 +1,8 @@
 from abc import ABCMeta
 
-from core.post.domain.repository.post_repo import AbcPostRepository
-from core.post.domain.repository.tag_repo import AbcTagRepository
-from core.user.domain.repository.user_repo import AbcUserRepository
+from core.domain.repository.post_repo import AbcPostRepository
+from core.domain.repository.tag_repo import AbcTagRepository
+from core.domain.repository.user_repo import AbcUserRepository
 
 
 class AbcUnitOfWork(metaclass=ABCMeta):

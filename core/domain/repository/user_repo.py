@@ -2,7 +2,7 @@ from abc import ABCMeta, abstractmethod
 from pydantic import EmailStr
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from core.user.domain.user import User
+from core.domain.model.user import User
 
 
 class AbcUserRepository(metaclass=ABCMeta):

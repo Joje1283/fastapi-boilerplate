@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
 from sqlmodel.ext.asyncio.session import AsyncSession
-from core.post.domain.post import Post
+from core.domain.model.post import Post
 
 
 class AbcPostRepository(metaclass=ABCMeta):

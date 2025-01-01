@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 
 from core.application.dto.user import RegisterUserCommand, LoginQuery
 from core.application.service.user_service import UserCommandService, UserQueryService
-from core.user.interface.controllers.schema.user import CreateUserResponse, CreateUserBody, LoginBody
+from core.interface.dto.user import CreateUserResponse, CreateUserBody, LoginBody
 from core.infra.containers import Container
 
 router = APIRouter(prefix="/users", tags=["users"])

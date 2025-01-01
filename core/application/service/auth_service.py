@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from starlette import status
 
-from core.auth.domain.token import Token
+from core.domain.token import Token
 from common.constants import Role
 from utils.jwt_utils import create_access_token, decode_access_token
 from common.config import get_settings
