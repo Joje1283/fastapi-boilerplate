@@ -6,7 +6,7 @@ from datetime import datetime
 from core.application.service.auth_service import AuthService
 from core.domain.token import Token
 from core.application.dto.user import RegisterUserCommand, LoginQuery
-from common.decorator.db_scope import query_handler, command_handler
+from common.db_scope import query_handler, command_handler
 from common.unit_of_work.uow import AbcUnitOfWork
 from core.domain.model.user import User, Profile
 from utils.hashing import Crypto

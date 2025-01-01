@@ -2,7 +2,7 @@ from ulid import ULID
 from datetime import datetime
 from core.application.dto.post import PostCommand, PostsQuery
 from core.domain.model.post import Post, Tag
-from common.decorator.db_scope import query_handler, command_handler
+from common.db_scope import query_handler, command_handler
 from core.infra.cache import cached
 from common.unit_of_work.uow import AbcUnitOfWork
 
