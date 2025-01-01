@@ -1,6 +1,6 @@
 from ulid import ULID
 from datetime import datetime
-from core.post.application.schema.post import PostCommand, PostsQuery
+from core.application.dto.post import PostCommand, PostsQuery
 from core.post.domain.post import Post, Tag
 from common.decorator.db_scope import query_handler, command_handler
 from core.infra.cache import cached

@@ -1,8 +1,8 @@
 from dependency_injector.wiring import inject, Provide
 from fastapi import APIRouter, Depends
 
-from core.user.application.schema.user import RegisterUserCommand, LoginQuery
-from core.user.application.user_service import UserCommandService, UserQueryService
+from core.application.dto.user import RegisterUserCommand, LoginQuery
+from core.application.service.user_service import UserCommandService, UserQueryService
 from core.user.interface.controllers.schema.user import CreateUserResponse, CreateUserBody, LoginBody
 from core.infra.containers import Container
 

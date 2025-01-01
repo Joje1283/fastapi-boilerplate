@@ -1,8 +1,8 @@
 from datetime import datetime
 import pytest
 
-from core.user.application.schema.user import RegisterUserCommand
-from core.user.application.user_service import UserCommandService
+from core.application.dto.user import RegisterUserCommand
+from core.application.service.user_service import UserCommandService
 
 from core.user.domain.user import User, Profile
 from core.user.interface.controllers import user_controller

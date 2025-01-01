@@ -2,8 +2,8 @@ from dependency_injector.wiring import inject, Provide
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
-from core.post.application.post_service import PostCommandService, PostQueryService
-from core.post.application.schema.post import PostCommand, PostsQuery
+from core.application.service.post_service import PostCommandService, PostQueryService
+from core.application.dto.post import PostCommand, PostsQuery
 from common.models import CurrentUser
 from core.infra.containers import Container
 from common.dependencies.auth import get_current_user

@@ -3,9 +3,9 @@ from starlette import status
 from ulid import ULID
 from datetime import datetime
 
-from core.auth.application.auth_service import AuthService
+from core.application.service.auth_service import AuthService
 from core.auth.domain.token import Token
-from core.user.application.schema.user import RegisterUserCommand, LoginQuery
+from core.application.dto.user import RegisterUserCommand, LoginQuery
 from common.decorator.db_scope import query_handler, command_handler
 from common.unit_of_work.uow import AbcUnitOfWork
 from core.user.domain.user import User, Profile
