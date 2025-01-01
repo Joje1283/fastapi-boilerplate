@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from common.logger import logger
 from common.containers import Container
-from app.user.interface.controllers.user_controller import router as user_routers
-from app.post.interface.controllers.post_controller import router as post_routers
+from core.user.interface.controllers.user_controller import router as user_routers
+from core.post.interface.controllers.post_controller import router as post_routers
 
 app = FastAPI()
 app.container = Container()

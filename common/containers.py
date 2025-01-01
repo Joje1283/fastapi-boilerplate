@@ -1,9 +1,9 @@
 from dependency_injector import containers, providers
 from ulid import ULID
 
-from app.auth.application.auth_service import AuthService
-from app.post.application.post_service import PostCommandService, PostQueryService
-from app.user.application.user_service import UserCommandService, UserQueryService
+from core.auth.application.auth_service import AuthService
+from core.post.application.post_service import PostCommandService, PostQueryService
+from core.user.application.user_service import UserCommandService, UserQueryService
 from common.config import get_settings
 from common.database import get_read_session, get_session
 from common.uow.uow_impl import UnitOfWork
