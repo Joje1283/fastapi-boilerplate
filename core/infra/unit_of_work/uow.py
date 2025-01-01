@@ -3,7 +3,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 from core.post.infra.repository.post_repo import PostRepository
 from core.post.infra.repository.tag_repo import TagRepository
 from core.user.infra.repository.user_repo import UserRepository
-from common.uow.abstract import AbcUnitOfWork
+from common.unit_of_work.uow import AbcUnitOfWork
 
 
 class UnitOfWork(AbcUnitOfWork):
