@@ -7,6 +7,7 @@ from core.application.dto.post import PostCommand, PostsQuery
 from common.models import CurrentUser
 from core.infra.containers import Container
 from core.infra.dependencies.auth import get_current_user
+from core.infra.distributed_lock import distributed_lock
 
 router = APIRouter(prefix="/posts", tags=["posts"])
 
@@ -56,6 +57,9 @@ async def get_post(
     post_id: str,
     post_service: PostQueryService = Depends(Provide[Container.post_query_service]),
 ):
+    from asyncio import sleep
+
+    await sleep(10)
     return await post_service.get_post(post_id=post_id)
 
 
